@@ -1,0 +1,8 @@
+{
+  "title": "Fighter's Conquest",
+  "description": "A classic 8-bit fighting game. Battle against CPU opponents, earn coins, and unlock new fighters. Upgrade your characters to conquer the tournament and become the ultimate champion.",
+  "path": "fighters_conquest/index.html",
+  "image": "https://placehold.co/600x400/991b1b/ffffff?text=Fighter's+Conquest",
+  "creator": "Jules",
+  "tags": ["Action", "Arcade", "Fighting"]
+}
