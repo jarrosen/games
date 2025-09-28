@@ -26,6 +26,9 @@ jobs:
       - name: Build Site
         run: node scripts/generate-gamelist.js
 
+      - name: List dist directory
+        run: ls -R dist
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
