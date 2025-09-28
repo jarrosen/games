@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jared's Game Garage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .font-bungee {
+            font-family: 'Bungee', cursive;
+        }
+        /* Custom scrollbar for a more game-like feel */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937; /* dark gray */
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5; /* indigo */
+            border-radius: 6px;
+            border: 2px solid #1f2937;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+        /* Glassmorphism effect for cards */
+        .glass-card {
+            background: rgba(31, 41, 55, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        /* Filter button styling */
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            background-color: #374151; /* gray-700 */
+            color: #d1d5db; /* gray-300 */
+            transition: all 0.2s ease-in-out;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+        .filter-btn:hover {
+            background-color: #4b5563; /* gray-600 */
+            color: #ffffff;
+        }
+        .filter-btn.active {
+            background-color: #ef4444; /* red-500 */
+            color: #ffffff;
+            border-color: #f87171; /* red-400 */
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white selection:bg-red-500 selection:text-white">
+
+    <div class="min-h-screen bg-cover bg-fixed" style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');">
+        <div class="min-h-screen bg-gray-900 bg-opacity-90">
+
+            <!-- Header Section -->
+            <header class="py-8">
+                <div class="container mx-auto px-6 text-center">
+                    <div class="flex justify-center items-center gap-4">
+                        <!-- Pinball SVG Icon -->
+                        <svg class="w-12 h-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 12a1 1 0 1 0-2 0 1 1 0 0 0 2 0zM9.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM16 14.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"></path>
+                        </svg>
+                        <h1 class="text-4xl md:text-6xl font-bungee tracking-wider text-shadow-lg">
+                            <span class="text-red-500">Jared's</span> <span class="text-blue-400">Game</span> <span class="text-gray-300">Garage</span>
+                        </h1>
+                    </div>
+                    <p class="mt-4 text-gray-400 text-lg">Your one-stop place for the coolest AI-made games!</p>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="container mx-auto px-6 py-8">
+
+                <!-- Search Bar -->
+                <div class="mb-12">
+                    <div class="relative max-w-2xl mx-auto">
+                        <input type="text" id="search-bar" placeholder="Search for a game..." class="w-full py-4 px-6 bg-gray-800 border-2 border-gray-700 rounded-full text-lg text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 shadow-lg">
+                        <svg class="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Category Filters -->
+                <div id="category-filters" class="mb-8 flex justify-center flex-wrap gap-x-4 gap-y-3">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="Action">Action</button>
+                    <button class="filter-btn" data-category="Adventure">Adventure</button>
+                    <button class="filter-btn" data-category="RPG">RPG</button>
+                    <button class="filter-btn" data-category="Sports">Sports</button>
+                    <button class="filter-btn" data-category="2 Player">2 Player</button>
+                    <button class="filter-btn" data-category="Arcade">Arcade</button>
+                </div>
+
+                <!-- Game Grid -->
+                <div id="game-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Game cards will be injected here by JavaScript -->
+                </div>
+                 <p id="no-results" class="text-center text-gray-400 text-2xl py-16 hidden">No games found. Try another search or category!</p>
+
+            </main>
+
+            <!-- Footer -->
+            <footer class="text-center py-8 mt-12 border-t border-gray-800">
+                <p class="text-gray-500">&copy; 2025 Jared's Game Garage. Built with AI!</p>
+            </footer>
+
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script src="games.js"></script>
+    <script>
+        // --- DOM ELEMENTS ---
+        const gameGrid = document.getElementById('game-grid');
+        const noResultsMessage = document.getElementById('no-results');
+        const searchBar = document.getElementById('search-bar');
+        const categoryFilters = document.getElementById('category-filters');
+
+        let currentCategory = 'all';
+
+        // --- RENDER GAMES ---
+        function renderGames(gameList) {
+            gameGrid.innerHTML = ''; // Clear the grid first
+            noResultsMessage.classList.toggle('hidden', gameList.length > 0);
+
+            gameList.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'game-card group glass-card rounded-2xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-blue-500/30';
+
+                const tagsHTML = game.tags.map(tag => `<span class="inline-block bg-gray-700 text-gray-300 text-xs font-semibold mr-2 mb-2 px-2.5 py-1 rounded-full">${tag}</span>`).join('');
+
+                gameCard.innerHTML = `
+                    <div class="relative">
+                        <img class="w-full h-48 object-cover" src="${game.image}" alt="Game art for ${game.title}">
+                        <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-0 transition-opacity duration-300"></div>
+                        <div class="absolute top-2 right-2 bg-blue-500/80 text-white text-xs font-bold px-2 py-1 rounded-full backdrop-blur-sm">${game.creator}</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold font-bungee tracking-wide text-gray-100 mb-2 truncate">${game.title}</h3>
+                        <div class="mb-3 h-14 overflow-y-auto">${tagsHTML}</div>
+                        <p class="text-gray-400 mb-4 h-12">${game.description}</p>
+                        <a href="${game.link}" class="inline-block w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transform group-hover:scale-105 transition-all duration-300">
+                            Play Now
+                        </a>
+                    </div>
+                `;
+                gameGrid.appendChild(gameCard);
+            });
+        }
+
+        // --- FILTER AND SEARCH LOGIC ---
+        function updateDisplay() {
+            // 1. Filter by category
+            let filteredGames = games;
+            if (currentCategory !== 'all') {
+                filteredGames = games.filter(game => game.tags.includes(currentCategory));
+            }
+
+            // 2. Filter by search term
+            const searchTerm = searchBar.value.toLowerCase();
+            if (searchTerm) {
+                filteredGames = filteredGames.filter(game => game.title.toLowerCase().includes(searchTerm));
+            }
+
+            renderGames(filteredGames);
+        }
+
+        // --- EVENT LISTENERS ---
+        categoryFilters.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                // Update active button
+                categoryFilters.querySelector('.active').classList.remove('active');
+                e.target.classList.add('active');
+
+                currentCategory = e.target.dataset.category;
+                updateDisplay();
+            }
+        });
+
+        searchBar.addEventListener('keyup', updateDisplay);
+
+        // --- INITIAL LOAD ---
+        // Display all games when the page first loads.
+        updateDisplay();
+
+    </script>
+</body>
+</html>
