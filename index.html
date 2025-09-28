@@ -121,84 +121,8 @@
     </div>
 
     <!-- JavaScript Logic -->
+    <script src="dist/games.js"></script>
     <script>
-        // --- GAME DATA ---
-        // Add your games here. You can add multiple categories in the 'tags' array.
-        const games = [
-            {
-                title: "Off-Road Racer",
-                description: "A fast-paced, top-down racing game for two players. Grab power-ups and leave your opponent in the dust!",
-                image: 'https://placehold.co/600x400/1e40af/ffffff?text=Off-Road+Racer',
-                link: './racing_game/',
-                creator: 'Jared',
-                tags: ['Action', 'Sports', '2 Player', 'Arcade']
-            },
-            {
-                title: "Timmy's Fiery Revenge",
-                description: "Help Timmy navigate a blazing world to reclaim his stolen hot sauce collection.",
-                image: 'https://placehold.co/600x400/dc2626/ffffff?text=Timmy\'s+Revenge',
-                link: '#',
-                creator: 'Jared',
-                tags: ['Action', 'Adventure']
-            },
-            {
-                title: "Zachary's Chocolate Adventure",
-                description: "Jump and run through a world made of candy to find the legendary chocolate river.",
-                image: 'https://placehold.co/600x400/3b82f6/ffffff?text=Chocolate+Adventure',
-                link: '#',
-                creator: 'Jared',
-                tags: ['Adventure']
-            },
-            {
-                title: "Silver Pinball Pro",
-                description: "A classic pinball game with a shiny, metallic twist and super-fast bumpers.",
-                image: 'https://placehold.co/600x400/9ca3af/111827?text=Pinball+Pro',
-                link: '#',
-                creator: 'Jared',
-                tags: ['Arcade', 'Sports']
-            },
-            {
-                title: "Gridiron Ghost",
-                description: "Score touchdowns as a spectral quarterback who can pass through defenders.",
-                image: 'https://placehold.co/600x400/16a34a/ffffff?text=Gridiron+Ghost',
-                link: '#',
-                creator: 'Jared',
-                tags: ['Sports', '2 Player']
-            },
-            {
-                title: "Cosmic Curveball",
-                description: "Play baseball in zero gravity! Hit home runs that orbit entire planets.",
-                image: 'https://placehold.co/600x400/8b5cf6/ffffff?text=Cosmic+Curveball',
-                link: '#',
-                creator: 'Jared',
-                tags: ['Sports']
-            },
-            {
-                title: "Rocket Puck Hockey",
-                description: "Ice hockey, but with rocket-powered pucks. Try to score before it explodes!",
-                image: 'https://placehold.co/600x400/0ea5e9/ffffff?text=Rocket+Puck',
-                link: '#',
-                creator: 'Jared',
-                tags: ['Sports', 'Action', '2 Player']
-            },
-            {
-                title: "Dungeon Dunkers",
-                description: "A fantasy RPG where you defeat monsters by challenging them to basketball.",
-                image: 'https://placehold.co/600x400/f97316/ffffff?text=Dungeon+Dunkers',
-                link: '#',
-                creator: 'Jared',
-                tags: ['RPG', 'Sports']
-            },
-            {
-                title: "Vortex Velocity",
-                description: "Race through swirling wormholes in this high-speed anti-gravity sports game.",
-                image: 'https://placehold.co/600x400/ec4899/ffffff?text=Vortex+Velocity',
-                link: '#',
-                creator: 'Jared',
-                tags: ['Action', 'Sports']
-            }
-        ];
-
         // --- DOM ELEMENTS ---
         const gameGrid = document.getElementById('game-grid');
         const noResultsMessage = document.getElementById('no-results');

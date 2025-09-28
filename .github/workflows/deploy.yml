@@ -18,16 +18,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Site
+        run: node scripts/generate-gamelist.js
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
-      - name: List files in the repository
-        run: ls -R
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: '.'
+          path: './dist'
 
       - name: Deploy to GitHub Pages
         id: deployment
