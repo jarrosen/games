@@ -8,13 +8,15 @@ const player2ScoreEl = document.getElementById('player2-score');
 let level = 1;
 let player1Score = 0;
 let player2Score = 0;
-let levelInProgress = true;
+let levelInProgress = false;
+let countdown = 3;
+let countdownInProgress = true;
 
 const car1 = {
     x: 100,
     y: 500,
-    width: 30,
-    height: 50,
+    width: 38,
+    height: 82,
     speed: 0,
     angle: 0,
     maxSpeed: 5,
@@ -27,16 +29,47 @@ const car1 = {
 const car2 = {
     x: 700,
     y: 500,
-    width: 30,
-    height: 50,
+    width: 38,
+    height: 82,
     speed: 0,
     angle: 0,
     maxSpeed: 5,
     turnSpeed: 0.1,
     acceleration: 0.2,
     deceleration: 0.1,
-    color: 'red'
+    color: 'red',
+    nextWaypointIndex: 0
 };
+
+const assets = {
+    car1: null,
+    car2: null,
+    track: null,
+    wall: null
+};
+
+const assetPaths = {
+    car1: 'assets/car_blue_3.png',
+    car2: 'assets/car_red_5.png',
+    track: 'assets/land_sand01.png',
+    wall: 'assets/barrier_red.png'
+};
+
+function loadAssets(callback) {
+    let assetsLoaded = 0;
+    const numAssets = Object.keys(assetPaths).length;
+
+    for (const key in assetPaths) {
+        assets[key] = new Image();
+        assets[key].src = assetPaths[key];
+        assets[key].onload = () => {
+            assetsLoaded++;
+            if (assetsLoaded === numAssets) {
+                callback();
+            }
+        };
+    }
+}
 
 const keys = {};
 
@@ -80,6 +113,10 @@ function checkWallCollision(car) {
 }
 
 function updateCar(car, up, down, left, right) {
+    if (countdownInProgress) {
+        car.speed = 0;
+        return;
+    }
     if (keys[up] && car.speed < car.maxSpeed) {
         car.speed += car.acceleration;
     } else if (keys[down] && car.speed > -car.maxSpeed / 2) {
@@ -138,7 +175,14 @@ const levels = [
         tileSize: 50,
         start1: { x: 110, y: 260 },
         start2: { x: 610, y: 260 },
-        finishLine: { x: 200, y: 60, width: 400, height: 10 }
+        finishLine: { x: 200, y: 60, width: 400, height: 10 },
+        waypoints: [
+            { x: 400, y: 100 },
+            { x: 700, y: 200 },
+            { x: 700, y: 400 },
+            { x: 100, y: 400 },
+            { x: 100, y: 200 }
+        ]
     },
     {
         map: [
@@ -153,7 +197,15 @@ const levels = [
         tileSize: 50,
         start1: { x: 110, y: 260 },
         start2: { x: 610, y: 260 },
-        finishLine: { x: 100, y: 60, width: 100, height: 10 }
+        finishLine: { x: 100, y: 60, width: 100, height: 10 },
+        waypoints: [
+            { x: 150, y: 100 },
+            { x: 400, y: 100 },
+            { x: 700, y: 250 },
+            { x: 700, y: 450 },
+            { x: 100, y: 450 },
+            { x: 100, y: 250 }
+        ]
     },
     {
         map: [
@@ -168,7 +220,14 @@ const levels = [
         tileSize: 50,
         start1: { x: 110, y: 260 },
         start2: { x: 610, y: 260 },
-        finishLine: { x: 400, y: 60, width: 50, height: 10 }
+        finishLine: { x: 400, y: 60, width: 50, height: 10 },
+        waypoints: [
+            { x: 425, y: 100 },
+            { x: 700, y: 100 },
+            { x: 700, y: 500 },
+            { x: 100, y: 500 },
+            { x: 100, y: 100 }
+        ]
     }
 ];
 
@@ -240,11 +299,21 @@ function applyPowerUp(car, type) {
 
 function drawMap() {
     const currentLevel = levels[level - 1];
+    if (assets.track) {
+        ctx.fillStyle = ctx.createPattern(assets.track, 'repeat');
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+
     for (let row = 0; row < currentLevel.map.length; row++) {
         for (let col = 0; col < currentLevel.map[row].length; col++) {
             if (currentLevel.map[row][col] === 1) {
-                ctx.fillStyle = 'grey';
-                ctx.fillRect(col * currentLevel.tileSize, row * currentLevel.tileSize, currentLevel.tileSize, currentLevel.tileSize);
+                if (assets.wall) {
+                    ctx.drawImage(assets.wall, col * currentLevel.tileSize, row * currentLevel.tileSize, currentLevel.tileSize, currentLevel.tileSize);
+                } else {
+                    ctx.fillStyle = 'grey';
+                    ctx.fillRect(col * currentLevel.tileSize, row * currentLevel.tileSize, currentLevel.tileSize, currentLevel.tileSize);
+                }
             }
         }
     }
@@ -285,6 +354,81 @@ function checkLevelComplete(car, player) {
     }
 }
 
+function startCountdown() {
+    countdownInProgress = true;
+    countdown = 3;
+    const countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown === 0) {
+            clearInterval(countdownInterval);
+            countdownInProgress = false;
+            levelInProgress = true;
+        }
+    }, 1000);
+}
+
+function drawCountdown() {
+    if (countdownInProgress) {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#ff0';
+        ctx.font = '100px "Courier New", Courier, monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        let text = countdown > 0 ? countdown : 'Go!';
+        ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+    }
+}
+
+function updateAICar(car) {
+    if (countdownInProgress) {
+        car.speed = 0;
+        return;
+    }
+
+    const currentLevel = levels[level - 1];
+    const waypoints = currentLevel.waypoints;
+    const targetWaypoint = waypoints[car.nextWaypointIndex];
+
+    const dx = targetWaypoint.x - car.x;
+    const dy = targetWaypoint.y - car.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    if (distance < 50) {
+        car.nextWaypointIndex = (car.nextWaypointIndex + 1) % waypoints.length;
+    }
+
+    const targetAngle = Math.atan2(dy, dx) + Math.PI / 2;
+    let angleDiff = targetAngle - car.angle;
+
+    while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
+    while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
+
+    if (angleDiff > 0) {
+        car.angle += car.turnSpeed;
+    } else {
+        car.angle -= car.turnSpeed;
+    }
+
+    if (car.speed < car.maxSpeed) {
+        car.speed += car.acceleration;
+    }
+
+    const oldX = car.x;
+    const oldY = car.y;
+
+    car.x += car.speed * Math.sin(car.angle);
+    car.y -= car.speed * Math.cos(car.angle);
+
+    if (checkWallCollision(car)) {
+        car.x = oldX;
+        car.y = oldY;
+        car.speed = 0;
+    }
+}
+
 function resetLevel() {
     const currentLevel = levels[level - 1];
     car1.x = currentLevel.start1.x;
@@ -295,16 +439,23 @@ function resetLevel() {
     car2.speed = 0;
     car1.angle = 0;
     car2.angle = 0;
+    car2.nextWaypointIndex = 0;
     powerUps.length = 0;
-    levelInProgress = true;
+    levelInProgress = false;
+    startCountdown();
 }
 
 function drawCar(car) {
     ctx.save();
     ctx.translate(car.x + car.width / 2, car.y + car.height / 2);
     ctx.rotate(car.angle);
-    ctx.fillStyle = car.color;
-    ctx.fillRect(-car.width / 2, -car.height / 2, car.width, car.height);
+    const carAsset = car.color === 'blue' ? assets.car1 : assets.car2;
+    if (carAsset) {
+        ctx.drawImage(carAsset, -car.width / 2, -car.height / 2, car.width, car.height);
+    } else {
+        ctx.fillStyle = car.color;
+        ctx.fillRect(-car.width / 2, -car.height / 2, car.width, car.height);
+    }
     ctx.restore();
 }
 
@@ -321,8 +472,8 @@ function gameLoop() {
     spawnPowerUp();
     drawPowerUps();
 
-    updateCar(car1, 'w', 's', 'a', 'd');
-    updateCar(car2, 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight');
+    updateCar(car1, 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight');
+    updateAICar(car2);
 
     checkPowerUpCollision(car1);
     checkPowerUpCollision(car2);
@@ -333,14 +484,18 @@ function gameLoop() {
     drawCar(car1);
     drawCar(car2);
 
+    drawCountdown();
+
     updateUI();
     requestAnimationFrame(gameLoop);
 }
 
 function initializeGame() {
-    resetLevel();
+    loadAssets(() => {
+        resetLevel();
+        gameLoop();
+    });
 }
 
 // Initialize and start the game loop
 initializeGame();
-gameLoop();
