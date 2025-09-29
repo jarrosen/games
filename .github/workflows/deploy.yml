@@ -29,7 +29,7 @@ jobs:
 
       - name: Checkout default
         uses: actions/checkout@v4
-        if: not(github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
+        if: !(github.event_name == 'pull_request_target' && github.event.pull_request.merged == true)
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
