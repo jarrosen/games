@@ -2,12 +2,19 @@ const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
 
 const levelEl = document.getElementById('level');
-const player1ScoreEl = document.getElementById('player1-score');
-const player2ScoreEl = document.getElementById('player2-score');
+const timerEl = document.getElementById('timer');
+const collectedCountEl = document.getElementById('collected-count');
+const totalCollectiblesEl = document.getElementById('total-collectibles');
+const highScoresContainer = document.getElementById('high-scores-container');
+const highScoresLevelEl = document.getElementById('high-scores-level');
+const highScoresListEl = document.getElementById('high-scores-list');
 
 let level = 1;
-let player1Score = 0;
-let player2Score = 0;
+let highScores = {};
+const MAX_HIGH_SCORES = 5;
+let timeLeft = 60;
+let timerInterval = null;
+let collectedCount = 0;
 let levelInProgress = false;
 let countdown = 3;
 let countdownInProgress = true;
@@ -26,31 +33,14 @@ const car1 = {
     color: 'blue'
 };
 
-const car2 = {
-    x: 700,
-    y: 500,
-    width: 38,
-    height: 82,
-    speed: 0,
-    angle: 0,
-    maxSpeed: 5,
-    turnSpeed: 0.1,
-    acceleration: 0.2,
-    deceleration: 0.1,
-    color: 'red',
-    nextWaypointIndex: 0
-};
-
 const assets = {
     car1: null,
-    car2: null,
     track: null,
     wall: null
 };
 
 const assetPaths = {
     car1: 'assets/car_blue_3.png',
-    car2: 'assets/car_red_5.png',
     track: 'assets/land_sand01.png',
     wall: 'assets/barrier_red.png'
 };
@@ -174,9 +164,8 @@ const levels = [
         ],
         tileSize: 50,
         start1: { x: 110, y: 260 },
-        start2: { x: 610, y: 260 },
-        finishLine: { x: 200, y: 60, width: 400, height: 10 },
-        waypoints: [
+        timeLimit: 45,
+        collectibles: [
             { x: 400, y: 100 },
             { x: 700, y: 200 },
             { x: 700, y: 400 },
@@ -196,9 +185,8 @@ const levels = [
         ],
         tileSize: 50,
         start1: { x: 110, y: 260 },
-        start2: { x: 610, y: 260 },
-        finishLine: { x: 100, y: 60, width: 100, height: 10 },
-        waypoints: [
+        timeLimit: 50,
+        collectibles: [
             { x: 150, y: 100 },
             { x: 400, y: 100 },
             { x: 700, y: 250 },
@@ -219,82 +207,89 @@ const levels = [
         ],
         tileSize: 50,
         start1: { x: 110, y: 260 },
-        start2: { x: 610, y: 260 },
-        finishLine: { x: 400, y: 60, width: 50, height: 10 },
-        waypoints: [
+        timeLimit: 60,
+        collectibles: [
             { x: 425, y: 100 },
             { x: 700, y: 100 },
             { x: 700, y: 500 },
             { x: 100, y: 500 },
             { x: 100, y: 100 }
         ]
+    },
+    {
+        map: [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1],
+            [1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ],
+        tileSize: 50,
+        start1: { x: 75, y: 275 },
+        timeLimit: 55,
+        collectibles: [
+            { x: 200, y: 100 },
+            { x: 400, y: 200 },
+            { x: 600, y: 100 },
+            { x: 600, y: 400 },
+            { x: 200, y: 400 }
+        ]
+    },
+    {
+        map: [
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+            [1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+            [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        ],
+        tileSize: 50,
+        start1: { x: 225, y: 175 },
+        timeLimit: 65,
+        collectibles: [
+            { x: 100, y: 100 },
+            { x: 700, y: 100 },
+            { x: 100, y: 500 },
+            { x: 700, y: 500 },
+            { x: 400, y: 300 }
+        ]
     }
 ];
 
-const powerUps = [];
+const collectibles = [];
 
-function spawnPowerUp() {
-    if (powerUps.length < 3) {
-        const currentLevel = levels[level - 1];
-        if (!currentLevel) return;
-        const map = currentLevel.map;
-        const tileSize = currentLevel.tileSize;
-
-        let x, y;
-        let valid = false;
-        let attempts = 0;
-        while (!valid && attempts < 100) {
-            x = Math.random() * (canvas.width - 20);
-            y = Math.random() * (canvas.height - 20);
-            const col = Math.floor(x / tileSize);
-            const row = Math.floor(y / tileSize);
-
-            if (row >= 0 && row < map.length && col >= 0 && col < map[row].length && map[row][col] === 0) {
-                valid = true;
-            }
-            attempts++;
-        }
-
-        if (valid) {
-            powerUps.push({
-                x: x,
-                y: y,
-                width: 20,
-                height: 20,
-                type: 'speed'
-            });
-        }
-    }
-}
-
-function drawPowerUps() {
+function drawCollectibles() {
     ctx.fillStyle = 'gold';
-    powerUps.forEach(powerUp => {
-        ctx.fillRect(powerUp.x, powerUp.y, powerUp.width, powerUp.height);
+    collectibles.forEach(collectible => {
+        ctx.save();
+        ctx.translate(collectible.x, collectible.y);
+        ctx.beginPath();
+        ctx.moveTo(10, 0);
+        ctx.lineTo(20, 20);
+        ctx.lineTo(0, 20);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
     });
 }
 
-function checkPowerUpCollision(car) {
-    powerUps.forEach((powerUp, index) => {
+function checkCollectibleCollision(car) {
+    collectibles.forEach((collectible, index) => {
+        const collectibleSize = 20;
         if (
-            car.x < powerUp.x + powerUp.width &&
-            car.x + car.width > powerUp.x &&
-            car.y < powerUp.y + powerUp.height &&
-            car.y + car.height > powerUp.y
+            car.x < collectible.x + collectibleSize &&
+            car.x + car.width > collectible.x &&
+            car.y < collectible.y + collectibleSize &&
+            car.y + car.height > collectible.y
         ) {
-            applyPowerUp(car, powerUp.type);
-            powerUps.splice(index, 1);
+            collectibles.splice(index, 1);
+            collectedCount++;
         }
     });
-}
-
-function applyPowerUp(car, type) {
-    if (type === 'speed') {
-        car.maxSpeed += 2;
-        setTimeout(() => {
-            car.maxSpeed -= 2;
-        }, 3000);
-    }
 }
 
 function drawMap() {
@@ -318,38 +313,90 @@ function drawMap() {
         }
     }
 
-    // Draw finish line
-    ctx.fillStyle = 'green';
-    ctx.fillRect(currentLevel.finishLine.x, currentLevel.finishLine.y, currentLevel.finishLine.width, currentLevel.finishLine.height);
 }
 
-function checkLevelComplete(car, player) {
+function loadHighScores() {
+    const scores = localStorage.getItem('highScores');
+    if (scores) {
+        highScores = JSON.parse(scores);
+    } else {
+        // Initialize with empty scores for each map
+        for (let i = 1; i <= levels.length; i++) {
+            highScores[`map_${i}`] = [];
+        }
+    }
+}
+
+function saveHighScores() {
+    localStorage.setItem('highScores', JSON.stringify(highScores));
+}
+
+function isHighScore(score) {
+    const mapScores = highScores[`map_${level}`] || [];
+    if (mapScores.length < MAX_HIGH_SCORES) {
+        return true;
+    }
+    // Scores are remaining time, so higher is better
+    return score > mapScores[mapScores.length - 1].score;
+}
+
+function addHighScore(name, score) {
+    const mapScores = highScores[`map_${level}`] || [];
+    mapScores.push({ name, score });
+    // Higher scores (more time left) are better
+    mapScores.sort((a, b) => b.score - a.score);
+    highScores[`map_${level}`] = mapScores.slice(0, MAX_HIGH_SCORES);
+    saveHighScores();
+    displayHighScores();
+}
+
+function displayHighScores() {
+    const mapScores = highScores[`map_${level}`] || [];
+    highScoresLevelEl.textContent = level;
+    highScoresListEl.innerHTML = '';
+
+    if (mapScores.length === 0) {
+        highScoresListEl.innerHTML = '<li>No scores yet!</li>';
+    } else {
+        mapScores.forEach(score => {
+            const li = document.createElement('li');
+            li.textContent = `${score.name}: ${score.score}`;
+            highScoresListEl.appendChild(li);
+        });
+    }
+    highScoresContainer.style.display = 'block';
+}
+
+function checkGameOver() {
     if (!levelInProgress) return;
 
     const currentLevel = levels[level - 1];
-    if (
-        car.x < currentLevel.finishLine.x + currentLevel.finishLine.width &&
-        car.x + car.width > currentLevel.finishLine.x &&
-        car.y < currentLevel.finishLine.y + currentLevel.finishLine.height &&
-        car.y + car.height > currentLevel.finishLine.y
-    ) {
+    const allCollected = collectedCount === currentLevel.collectibles.length;
+
+    if (allCollected) {
         levelInProgress = false;
-        if (player === 1) {
-            player1Score++;
-            alert('Player 1 Wins!');
+        clearInterval(timerInterval);
+        const score = timeLeft;
+
+        if (isHighScore(score)) {
+            const name = prompt(`New High Score! Enter your name:`);
+            if (name) {
+                addHighScore(name, score);
+            }
         } else {
-            player2Score++;
-            alert('Player 2 Wins!');
+            alert('You Win!');
         }
 
         level++;
         if (level > levels.length) {
-            alert('Game Over! Final Score: Player 1 - ' + player1Score + ', Player 2 - ' + player2Score);
+            alert('Congratulations! You beat the game!');
             level = 1;
-            player1Score = 0;
-            player2Score = 0;
         }
-
+        setTimeout(resetLevel, 2000);
+    } else if (timeLeft <= 0) {
+        levelInProgress = false;
+        clearInterval(timerInterval);
+        alert('Game Over: Time is up!');
         setTimeout(resetLevel, 2000);
     }
 }
@@ -363,6 +410,13 @@ function startCountdown() {
             clearInterval(countdownInterval);
             countdownInProgress = false;
             levelInProgress = true;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft <= 0) {
+                    timeLeft = 0;
+                    clearInterval(timerInterval);
+                }
+            }, 1000);
         }
     }, 1000);
 }
@@ -382,74 +436,35 @@ function drawCountdown() {
     }
 }
 
-function updateAICar(car) {
-    if (countdownInProgress) {
-        car.speed = 0;
-        return;
-    }
-
-    const currentLevel = levels[level - 1];
-    const waypoints = currentLevel.waypoints;
-    const targetWaypoint = waypoints[car.nextWaypointIndex];
-
-    const dx = targetWaypoint.x - car.x;
-    const dy = targetWaypoint.y - car.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-
-    if (distance < 50) {
-        car.nextWaypointIndex = (car.nextWaypointIndex + 1) % waypoints.length;
-    }
-
-    const targetAngle = Math.atan2(dy, dx) + Math.PI / 2;
-    let angleDiff = targetAngle - car.angle;
-
-    while (angleDiff > Math.PI) angleDiff -= 2 * Math.PI;
-    while (angleDiff < -Math.PI) angleDiff += 2 * Math.PI;
-
-    if (angleDiff > 0) {
-        car.angle += car.turnSpeed;
-    } else {
-        car.angle -= car.turnSpeed;
-    }
-
-    if (car.speed < car.maxSpeed) {
-        car.speed += car.acceleration;
-    }
-
-    const oldX = car.x;
-    const oldY = car.y;
-
-    car.x += car.speed * Math.sin(car.angle);
-    car.y -= car.speed * Math.cos(car.angle);
-
-    if (checkWallCollision(car)) {
-        car.x = oldX;
-        car.y = oldY;
-        car.speed = 0;
-    }
-}
-
 function resetLevel() {
+    highScoresContainer.style.display = 'none';
     const currentLevel = levels[level - 1];
     car1.x = currentLevel.start1.x;
     car1.y = currentLevel.start1.y;
-    car2.x = currentLevel.start2.x;
-    car2.y = currentLevel.start2.y;
     car1.speed = 0;
-    car2.speed = 0;
     car1.angle = 0;
-    car2.angle = 0;
-    car2.nextWaypointIndex = 0;
-    powerUps.length = 0;
+
+    collectedCount = 0;
+    collectibles.length = 0;
+    for (const item of currentLevel.collectibles) {
+        collectibles.push({ ...item });
+    }
+
+    timeLeft = currentLevel.timeLimit;
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+
     levelInProgress = false;
     startCountdown();
+    displayHighScores();
 }
 
 function drawCar(car) {
     ctx.save();
     ctx.translate(car.x + car.width / 2, car.y + car.height / 2);
     ctx.rotate(car.angle);
-    const carAsset = car.color === 'blue' ? assets.car1 : assets.car2;
+    const carAsset = assets.car1;
     if (carAsset) {
         ctx.drawImage(carAsset, -car.width / 2, -car.height / 2, car.width, car.height);
     } else {
@@ -460,29 +475,25 @@ function drawCar(car) {
 }
 
 function updateUI() {
+    const currentLevel = levels[level - 1];
     levelEl.textContent = level;
-    player1ScoreEl.textContent = player1Score;
-    player2ScoreEl.textContent = player2Score;
+    timerEl.textContent = timeLeft;
+    collectedCountEl.textContent = collectedCount;
+    totalCollectiblesEl.textContent = currentLevel.collectibles.length;
 }
 
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawMap();
-    spawnPowerUp();
-    drawPowerUps();
+    drawCollectibles();
 
     updateCar(car1, 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight');
-    updateAICar(car2);
 
-    checkPowerUpCollision(car1);
-    checkPowerUpCollision(car2);
-
-    checkLevelComplete(car1, 1);
-    checkLevelComplete(car2, 2);
+    checkCollectibleCollision(car1);
+    checkGameOver();
 
     drawCar(car1);
-    drawCar(car2);
 
     drawCountdown();
 
@@ -491,6 +502,7 @@ function gameLoop() {
 }
 
 function initializeGame() {
+    loadHighScores();
     loadAssets(() => {
         resetLevel();
         gameLoop();
