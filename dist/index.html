@@ -3,199 +3,455 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jared's Game Garage</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- STEP 1: Change the website name here -->
+    <title>Britalian Football</title>
+    Google Fonts
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
+        :root {
+            --primary-color: #0a3d1b; /* Darker, richer green */
+            --secondary-color: #ffffff;
+            --accent-color: #f1c40f; /* Bold gold/yellow */
+            --text-color: #e0e0e0;
+            --dark-bg: #1a1a1a;
         }
-        .font-bungee {
-            font-family: 'Bungee', cursive;
+
+        html {
+            scroll-behavior: smooth;
         }
-        /* Custom scrollbar for a more game-like feel */
-        ::-webkit-scrollbar {
-            width: 12px;
+
+        body {/*  */
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
         }
-        ::-webkit-scrollbar-track {
-            background: #1f2937; /* dark gray */
+
+        /* Header & Navigation */
+        .header {
+            background-color: rgba(10, 61, 27, 0.9);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap; /* Allows nav to wrap on small screens */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #4f46e5; /* indigo */
-            border-radius: 6px;
-            border: 2px solid #1f2937;
+        
+        /* STEP 2: Add your logo image here if you have one */
+        .logo {
+            font-size: 1.8em;
+            font-weight: 900;
+            color: var(--accent-color);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6366f1;
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
         }
-        /* Glassmorphism effect for cards */
-        .glass-card {
-            background: rgba(31, 41, 55, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .nav-links a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1em;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: color 0.3s ease;
         }
-        /* Filter button styling */
-        .filter-btn {
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            background-color: #374151; /* gray-700 */
-            color: #d1d5db; /* gray-300 */
-            transition: all 0.2s ease-in-out;
-            border: 2px solid transparent;
-            cursor: pointer;
+        
+        .nav-links a:hover {
+            color: var(--accent-color);
         }
-        .filter-btn:hover {
-            background-color: #4b5563; /* gray-600 */
-            color: #ffffff;
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .filter-btn.active {
-            background-color: #ef4444; /* red-500 */
-            color: #ffffff;
-            border-color: #f87171; /* red-400 */
-            box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+
+        .content-section {
+            background-color: #2c2c2c;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            margin-bottom: 30px; /* Space between sections */
         }
+
+        h1, h2 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+        
+        h1 { font-size: 2.5em; }
+        h2 { font-size: 2em; }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #555;
+        }
+        .content-section h3:first-of-type {
+            margin-top: 20px; /* Less margin for the first one */
+        }
+
+        /* Card styles for players/creators */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .card {
+            background: #3a3a3a;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: var(--secondary-color);
+            border: none;
+        }
+        
+        .card .nickname {
+            font-style: italic;
+            font-size: 1.1em;
+            color: var(--secondary-color);
+            margin-bottom: 4px;
+        }
+
+        .card .role {
+            font-style: italic;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+        
+        .card p {
+            color: var(--text-color);
+        }
+
+        /* Leaderboard Table */
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            overflow-x: auto; /* For small screens */
+            display: block;
+        }
+        
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        
+        .leaderboard-table th {
+            background-color: var(--primary-color);
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+        
+        .leaderboard-table tr:nth-child(even) {
+            background-color: #3a3a3a;
+        }
+        
+        /* Rules list */
+        .rules-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .rules-list li {
+            background: #3a3a3a;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-left: 5px solid var(--accent-color);
+            border-radius: 0 5px 5px 0;
+        }
+        .rules-list strong {
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            background-color: #111;
+            color: #888;
+        }
+        
     </style>
 </head>
-<body class="bg-gray-900 text-white selection:bg-red-500 selection:text-white">
+<body>
 
-    <div class="min-h-screen bg-cover bg-fixed" style="background-image: url('https://www.transparenttextures.com/patterns/cubes.png');">
-        <div class="min-h-screen bg-gray-900 bg-opacity-90">
+    <header class="header">
+        <div class="logo">Britalian Football</div>
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#players">Players</a>
+            <a href="#leaderboards">Leaderboards</a>
+            <a href="#rules">Rules</a>
+            <a href="#creators">Creators</a>
+        </nav>
+    </header>
 
-            <!-- Header Section -->
-            <header class="py-8">
-                <div class="container mx-auto px-6 text-center">
-                    <div class="flex justify-center items-center gap-4">
-                        <!-- Pinball SVG Icon -->
-                        <svg class="w-12 h-12 text-blue-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"></path><path d="M13 12a1 1 0 1 0-2 0 1 1 0 0 0 2 0zM9.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM16 14.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0z"></path>
-                        </svg>
-                        <h1 class="text-4xl md:text-6xl font-bungee tracking-wider text-shadow-lg">
-                            <span class="text-red-500">Jared's</span> <span class="text-blue-400">Game</span> <span class="text-gray-300">Garage</span>
-                        </h1>
-                    </div>
-                    <p class="mt-4 text-gray-400 text-lg">Your one-stop place for the coolest AI-made games!</p>
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="content-section">
+            <h1>The Ultimate Backyard Sport</h1>
+            <p>Welcome to the official home of Britalian Football! Born from a spirited rivalry and a passion for gridiron glory, this isn't just a game—it's a tradition. Combining the brute force of American Football with a uniquely oversized yellow ball, Britalian Football is the pinnacle of backyard athletic competition.</p>
+            <p>Explore the site to learn the rules, meet the legendary players, and see who's dominating the leaderboards.</p>
+        </section>
+
+        <!-- Players Section -->
+        <section id="players" class="content-section">
+            <h2>The Legends of the League</h2>
+            <div class="card-container">
+                <div class="card">
+                    <h3>Max</h3>
+                    <p class="nickname">"The Founder"</p>
+                    <p class="role">Owner</p>
+                    <p>The original visionary and commissioner of the Britalian Football League.</p>
                 </div>
-            </header>
-
-            <!-- Main Content -->
-            <main class="container mx-auto px-6 py-8">
-
-                <!-- Search Bar -->
-                <div class="mb-12">
-                    <div class="relative max-w-2xl mx-auto">
-                        <input type="text" id="search-bar" placeholder="Search for a game..." class="w-full py-4 px-6 bg-gray-800 border-2 border-gray-700 rounded-full text-lg text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-4 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 shadow-lg">
-                        <svg class="absolute right-6 top-1/2 -translate-y-1/2 w-6 h-6 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                        </svg>
-                    </div>
+                <div class="card">
+                    <h3>Vihaan</h3>
+                    <p class="nickname">"The Captain"</p>
+                    <p class="role">Co-owner</p>
+                    <p>A key stakeholder known for strategic insights and game-day leadership.</p>
                 </div>
-
-                <!-- Category Filters -->
-                <div id="category-filters" class="mb-8 flex justify-center flex-wrap gap-x-4 gap-y-3">
-                    <button class="filter-btn active" data-category="all">All</button>
-                    <button class="filter-btn" data-category="Action">Action</button>
-                    <button class="filter-btn" data-category="Adventure">Adventure</button>
-                    <button class="filter-btn" data-category="RPG">RPG</button>
-                    <button class="filter-btn" data-category="Sports">Sports</button>
-                    <button class="filter-btn" data-category="2 Player">2 Player</button>
-                    <button class="filter-btn" data-category="Arcade">Arcade</button>
+                <div class="card">
+                    <h3>Jared</h3>
+                    <p class="nickname">"Glue Hands"</p>
+                    <p class="role">Co-owner</p>
+                    <p>Brings a powerful presence to the field and the boardroom.</p>
                 </div>
-
-                <!-- Game Grid -->
-                <div id="game-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                    <!-- Game cards will be injected here by JavaScript -->
+                <div class="card">
+                    <h3>Ben</h3>
+                    <p class="nickname">"The Blur"</p>
+                    <p class="role">Member</p>
+                    <p>A rising star known for agility and clutch plays.</p>
                 </div>
-                 <p id="no-results" class="text-center text-gray-400 text-2xl py-16 hidden">No games found. Try another search or category!</p>
+                <div class="card">
+                    <h3>Jaden</h3>
+                    <p class="nickname">"Lockdown"</p>
+                    <p class="role">Member</p>
+                    <p>A dedicated player, essential to the team's success on the field.</p>
+                </div>
+                <div class="card">
+                    <h3>Micheal</h3>
+                    <p class="nickname">"The Cannon"</p>
+                    <p class="role">Co-owner</p>
+                    <p>Instrumental in league operations and a fierce competitor.</p>
+                </div>
+                <div class="card">
+                    <h3>Jason</h3>
+                    <p class="nickname">"The Vet"</p>
+                    <p class="role">Co-owner</p>
+                    <p>A veteran of the game whose experience is invaluable to the league.</p>
+                </div>
+                <div class="card">
+                    <h3>Harrison</h3>
+                    <p class="nickname">"The Engine"</p>
+                    <p class="role">Co-owner</p>
+                    <p>Drives the competitive spirit of the league forward.</p>
+                </div>
+                <div class="card">
+                    <h3>Sebastian</h3>
+                    <p class="nickname">"The Natural"</p>
+                    <p class="role">Member</p>
+                    <p>The newest member of the league, ready to make an impact.</p>
+                </div>
+            </div>
+        </section>
 
-            </main>
+        <!-- Leaderboards Section -->
+        <section id="leaderboards" class="content-section">
+            <h2>Leaderboards</h2>
+            
+            <h3>Touchdowns Scored</h3>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>TDs Scored</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Vihaan</td><td>1</td></tr>
+                    <tr><td>1</td><td>Ben</td><td>1</td></tr>
+                    <tr><td>1</td><td>Harrison</td><td>1</td></tr>
+                    <tr><td>1</td><td>Jared</td><td>1</td></tr>
+                    <tr><td>5</td><td>Max</td><td>0</td></tr>
+                    <tr><td>5</td><td>Jaden</td><td>0</td></tr>
+                    <tr><td>5</td><td>Micheal</td><td>0</td></tr>
+                    <tr><td>5</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>5</td><td>Sebastian</td><td>0</td></tr>
+                </tbody>
+            </table>
 
-            <!-- Footer -->
-            <footer class="text-center py-8 mt-12 border-t border-gray-800">
-                <p class="text-gray-500">&copy; 2025 Jared's Game Garage. Built with AI!</p>
-            </footer>
+            <h3>Touchdowns Thrown</h3>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>TDs Thrown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Jared</td><td>2</td></tr>
+                    <tr><td>2</td><td>Micheal</td><td>1</td></tr>
+                    <tr><td>3</td><td>Max</td><td>0</td></tr>
+                    <tr><td>3</td><td>Vihaan</td><td>0</td></tr>
+                    <tr><td>3</td><td>Ben</td><td>0</td></tr>
+                    <tr><td>3</td><td>Jaden</td><td>0</td></tr>
+                    <tr><td>3</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>3</td><td>Harrison</td><td>0</td></tr>
+                    <tr><td>3</td><td>Sebastian</td><td>0</td></tr>
+                </tbody>
+            </table>
 
-        </div>
-    </div>
+            <h3>Picks (Interceptions)</h3>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Picks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Ben</td><td>3</td></tr>
+                    <tr><td>2</td><td>Jaden</td><td>1</td></tr>
+                    <tr><td>2</td><td>Jared</td><td>1</td></tr>
+                    <tr><td>4</td><td>Max</td><td>0</td></tr>
+                    <tr><td>4</td><td>Vihaan</td><td>0</td></tr>
+                    <tr><td>4</td><td>Micheal</td><td>0</td></tr>
+                    <tr><td>4</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>4</td><td>Harrison</td><td>0</td></tr>
+                    <tr><td>4</td><td>Sebastian</td><td>0</td></tr>
+                </tbody>
+            </table>
 
-    <!-- JavaScript Logic -->
-    <script src="games.js"></script>
+            <h3>Pick 6s</h3>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Pick 6s</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Max</td><td>0</td></tr>
+                    <tr><td>1</td><td>Vihaan</td><td>0</td></tr>
+                    <tr><td>1</td><td>Jared</td><td>0</td></tr>
+                    <tr><td>1</td><td>Ben</td><td>0</td></tr>
+                    <tr><td>1</td><td>Jaden</td><td>0</td></tr>
+                    <tr><td>1</td><td>Miche-al</td><td>0</td></tr>
+                    <tr><td>1</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>1</td><td>Harrison</td><td>0</td></tr>
+                    <tr><td>1</td><td>Sebastian</td><td>0</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Rules Section -->
+        <section id="rules" class="content-section">
+            <h2>The Official Rulebook</h2>
+            <ul class="rules-list">
+                <li>
+                    <strong>Gameplay Style:</strong> The game is similar to American Football, played with a line of scrimmage and a set of downs.
+                </li>
+                <li>
+                    <strong>Scoring:</strong> A touchdown is worth 7 points. A "pick 6" (an interception returned for a touchdown) is a massive, game-changing 20 points. There are no extra points.
+                </li>
+                <li>
+                    <strong>Contact:</strong> The game is strictly two-hand touch. However, blocking and setting picks for your teammates are fully allowed and encouraged.
+                </li>
+                <li>
+                    <strong>Defense:</strong> Defenders are only allowed to rush the quarterback after a count of "10 Mississippi".
+                </li>
+                <li>
+                    <strong>The Ball:</strong> The game is played exclusively with a large, yellow, foam or rubber ball. No other ball is permitted.
+                </li>
+            </ul>
+        </section>
+
+        <!-- Creators Section -->
+        <section id="creators" class="content-section">
+            <h2>Meet the Founders</h2>
+            <p>Britalian Football wasn't born in a boardroom. It was forged on the fields of POB Middle School in Plainview, New York by a group of friends with a love for competition and a healthy dose of rivalry, evolving into the sport we know and love today.</p>
+            <div class="card-container">
+                 <div class="card">
+                    <h3>Max (Owner)</h3>
+                    <p>The original visionary who first brought the big yellow ball to the game and established the league.</p>
+                </div>
+                <div class="card">
+                    <h3>Founding Council</h3>
+                    <p>Vihaan, Jared, Jason, Micheal, and Harrison were instrumental in shaping the rules and the competitive spirit of the league from day one.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2025 Britalian Football League. All Rights Reserved.</p>
+    </footer>
+
     <script>
-        // --- DOM ELEMENTS ---
-        const gameGrid = document.getElementById('game-grid');
-        const noResultsMessage = document.getElementById('no-results');
-        const searchBar = document.getElementById('search-bar');
-        const categoryFilters = document.getElementById('category-filters');
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+            const header = document.querySelector('.header');
 
-        let currentCategory = 'all';
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
 
-        // --- RENDER GAMES ---
-        function renderGames(gameList) {
-            gameGrid.innerHTML = ''; // Clear the grid first
-            noResultsMessage.classList.toggle('hidden', gameList.length > 0);
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerHeight = header ? header.offsetHeight : 0;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
 
-            gameList.forEach(game => {
-                const gameCard = document.createElement('div');
-                gameCard.className = 'game-card group glass-card rounded-2xl overflow-hidden shadow-lg transform hover:-translate-y-2 transition-all duration-300 ease-in-out hover:shadow-2xl hover:shadow-blue-500/30';
-
-                const tagsHTML = game.tags.map(tag => `<span class="inline-block bg-gray-700 text-gray-300 text-xs font-semibold mr-2 mb-2 px-2.5 py-1 rounded-full">${tag}</span>`).join('');
-
-                gameCard.innerHTML = `
-                    <div class="relative">
-                        <img class="w-full h-48 object-cover" src="${game.image}" alt="Game art for ${game.title}">
-                        <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-0 transition-opacity duration-300"></div>
-                        <div class="absolute top-2 right-2 bg-blue-500/80 text-white text-xs font-bold px-2 py-1 rounded-full backdrop-blur-sm">${game.creator}</div>
-                    </div>
-                    <div class="p-6">
-                        <h3 class="text-2xl font-bold font-bungee tracking-wide text-gray-100 mb-2 truncate">${game.title}</h3>
-                        <p class="text-gray-400 mb-3 h-16">${game.description}</p>
-                        <div class="mb-4 h-10 overflow-y-auto">${tagsHTML}</div>
-                        <a href="${game.link}" class="inline-block w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transform group-hover:scale-105 transition-all duration-300">
-                            Play Now
-                        </a>
-                    </div>
-                `;
-                gameGrid.appendChild(gameCard);
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
-        }
-
-        // --- FILTER AND SEARCH LOGIC ---
-        function updateDisplay() {
-            // 1. Filter by category
-            let filteredGames = games;
-            if (currentCategory !== 'all') {
-                filteredGames = games.filter(game => game.tags.includes(currentCategory));
-            }
-
-            // 2. Filter by search term
-            const searchTerm = searchBar.value.toLowerCase();
-            if (searchTerm) {
-                filteredGames = filteredGames.filter(game => game.title.toLowerCase().includes(searchTerm));
-            }
-
-            renderGames(filteredGames);
-        }
-
-        // --- EVENT LISTENERS ---
-        categoryFilters.addEventListener('click', (e) => {
-            if (e.target.tagName === 'BUTTON') {
-                // Update active button
-                categoryFilters.querySelector('.active').classList.remove('active');
-                e.target.classList.add('active');
-
-                currentCategory = e.target.dataset.category;
-                updateDisplay();
-            }
         });
-
-        searchBar.addEventListener('keyup', updateDisplay);
-
-        // --- INITIAL LOAD ---
-        // Display all games when the page first loads.
-        updateDisplay();
-
     </script>
+
 </body>
 </html>
+
+
+
+
+
+
