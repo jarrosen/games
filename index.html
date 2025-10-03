@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- STEP 1: Change the website name here -->
     <title>Britalian Football</title>
-    <!-- Google Fonts -->
+    Google Fonts
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnecit" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,7 +18,11 @@
             --dark-bg: #1a1a1a;
         }
 
-        body {
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {/*  */
             font-family: 'Roboto', sans-serif;
             margin: 0;
             background-color: var(--dark-bg);
@@ -92,6 +96,19 @@
         
         h1 { font-size: 2.5em; }
         h2 { font-size: 2em; }
+        
+        .content-section h3 {
+            color: var(--secondary-color);
+            font-size: 1.6em;
+            font-weight: 700;
+            margin-top: 40px;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #555;
+        }
+        .content-section h3:first-of-type {
+            margin-top: 20px; /* Less margin for the first one */
+        }
 
         /* Card styles for players/creators */
         .card-container {
@@ -114,6 +131,13 @@
             border: none;
         }
         
+        .card .nickname {
+            font-style: italic;
+            font-size: 1.1em;
+            color: var(--secondary-color);
+            margin-bottom: 4px;
+        }
+
         .card .role {
             font-style: italic;
             color: var(--accent-color);
@@ -205,89 +229,150 @@
             <div class="card-container">
                 <div class="card">
                     <h3>Max</h3>
+                    <p class="nickname">"The Founder"</p>
                     <p class="role">Owner</p>
                     <p>The original visionary and commissioner of the Britalian Football League.</p>
                 </div>
                 <div class="card">
-                    <h3>Vhiaan</h3>
+                    <h3>Vihaan</h3>
+                    <p class="nickname">"The Captain"</p>
                     <p class="role">Co-owner</p>
                     <p>A key stakeholder known for strategic insights and game-day leadership.</p>
                 </div>
                 <div class="card">
                     <h3>Jared</h3>
+                    <p class="nickname">"Glue Hands"</p>
                     <p class="role">Co-owner</p>
                     <p>Brings a powerful presence to the field and the boardroom.</p>
                 </div>
                 <div class="card">
                     <h3>Ben</h3>
-                    <p class="role">Member</p>
-                    <p>A dedicated player, essential to the team's success on the field.</p>
-                </div>
-                <div class="card">
-                    <h3>Jaden</h3>
+                    <p class="nickname">"The Blur"</p>
                     <p class="role">Member</p>
                     <p>A rising star known for agility and clutch plays.</p>
                 </div>
                 <div class="card">
+                    <h3>Jaden</h3>
+                    <p class="nickname">"Lockdown"</p>
+                    <p class="role">Member</p>
+                    <p>A dedicated player, essential to the team's success on the field.</p>
+                </div>
+                <div class="card">
                     <h3>Micheal</h3>
+                    <p class="nickname">"The Cannon"</p>
                     <p class="role">Co-owner</p>
                     <p>Instrumental in league operations and a fierce competitor.</p>
                 </div>
                 <div class="card">
                     <h3>Jason</h3>
+                    <p class="nickname">"The Vet"</p>
                     <p class="role">Co-owner</p>
                     <p>A veteran of the game whose experience is invaluable to the league.</p>
                 </div>
                 <div class="card">
                     <h3>Harrison</h3>
+                    <p class="nickname">"The Engine"</p>
                     <p class="role">Co-owner</p>
                     <p>Drives the competitive spirit of the league forward.</p>
+                </div>
+                <div class="card">
+                    <h3>Sebastian</h3>
+                    <p class="nickname">"The Natural"</p>
+                    <p class="role">Member</p>
+                    <p>The newest member of the league, ready to make an impact.</p>
                 </div>
             </div>
         </section>
 
         <!-- Leaderboards Section -->
         <section id="leaderboards" class="content-section">
-            <h2>Season Standings</h2>
+            <h2>Leaderboards</h2>
+            
+            <h3>Touchdowns Scored</h3>
             <table class="leaderboard-table">
                 <thead>
                     <tr>
                         <th>Rank</th>
                         <th>Player</th>
-                        <th>Wins</th>
-                        <th>Losses</th>
-                        <th>Touchdowns</th>
+                        <th>TDs Scored</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr><td>1</td><td>Vihaan</td><td>1</td></tr>
+                    <tr><td>1</td><td>Ben</td><td>1</td></tr>
+                    <tr><td>1</td><td>Harrison</td><td>1</td></tr>
+                    <tr><td>1</td><td>Jared</td><td>1</td></tr>
+                    <tr><td>5</td><td>Max</td><td>0</td></tr>
+                    <tr><td>5</td><td>Jaden</td><td>0</td></tr>
+                    <tr><td>5</td><td>Micheal</td><td>0</td></tr>
+                    <tr><td>5</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>5</td><td>Sebastian</td><td>0</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Touchdowns Thrown</h3>
+            <table class="leaderboard-table">
+                <thead>
                     <tr>
-                        <td>1</td>
-                        <td>Player One</td>
-                        <td>12</td>
-                        <td>2</td>
-                        <td>35</td>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>TDs Thrown</th>
                     </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Jared</td><td>2</td></tr>
+                    <tr><td>2</td><td>Micheal</td><td>1</td></tr>
+                    <tr><td>3</td><td>Max</td><td>0</td></tr>
+                    <tr><td>3</td><td>Vihaan</td><td>0</td></tr>
+                    <tr><td>3</td><td>Ben</td><td>0</td></tr>
+                    <tr><td>3</td><td>Jaden</td><td>0</td></tr>
+                    <tr><td>3</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>3</td><td>Harrison</td><td>0</td></tr>
+                    <tr><td>3</td><td>Sebastian</td><td>0</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Picks (Interceptions)</h3>
+            <table class="leaderboard-table">
+                <thead>
                     <tr>
-                        <td>2</td>
-                        <td>Player Two</td>
-                        <td>10</td>
-                        <td>4</td>
-                        <td>42</td>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Picks</th>
                     </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Ben</td><td>3</td></tr>
+                    <tr><td>2</td><td>Jaden</td><td>1</td></tr>
+                    <tr><td>2</td><td>Jared</td><td>1</td></tr>
+                    <tr><td>4</td><td>Max</td><td>0</td></tr>
+                    <tr><td>4</td><td>Vihaan</td><td>0</td></tr>
+                    <tr><td>4</td><td>Micheal</td><td>0</td></tr>
+                    <tr><td>4</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>4</td><td>Harrison</td><td>0</td></tr>
+                    <tr><td>4</td><td>Sebastian</td><td>0</td></tr>
+                </tbody>
+            </table>
+
+            <h3>Pick 6s</h3>
+            <table class="leaderboard-table">
+                <thead>
                     <tr>
-                        <td>3</td>
-                        <td>Player Three</td>
-                        <td>8</td>
-                        <td>6</td>
-                        <td>15</td>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th>Pick 6s</th>
                     </tr>
-                     <tr>
-                        <td>4</td>
-                        <td>Player Four</td>
-                        <td>5</td>
-                        <td>9</td>
-                        <td>5 (FG)</td>
-                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>Max</td><td>0</td></tr>
+                    <tr><td>1</td><td>Vihaan</td><td>0</td></tr>
+                    <tr><td>1</td><td>Jared</td><td>0</td></tr>
+                    <tr><td>1</td><td>Ben</td><td>0</td></tr>
+                    <tr><td>1</td><td>Jaden</td><td>0</td></tr>
+                    <tr><td>1</td><td>Miche-al</td><td>0</td></tr>
+                    <tr><td>1</td><td>Jason</td><td>0</td></tr>
+                    <tr><td>1</td><td>Harrison</td><td>0</td></tr>
+                    <tr><td>1</td><td>Sebastian</td><td>0</td></tr>
                 </tbody>
             </table>
         </section>
@@ -297,22 +382,19 @@
             <h2>The Official Rulebook</h2>
             <ul class="rules-list">
                 <li>
+                    <strong>Gameplay Style:</strong> The game is similar to American Football, played with a line of scrimmage and a set of downs.
+                </li>
+                <li>
+                    <strong>Scoring:</strong> A touchdown is worth 7 points. A "pick 6" (an interception returned for a touchdown) is a massive, game-changing 20 points. There are no extra points.
+                </li>
+                <li>
+                    <strong>Contact:</strong> The game is strictly two-hand touch. However, blocking and setting picks for your teammates are fully allowed and encouraged.
+                </li>
+                <li>
+                    <strong>Defense:</strong> Defenders are only allowed to rush the quarterback after a count of "10 Mississippi".
+                </li>
+                <li>
                     <strong>The Ball:</strong> The game is played exclusively with a large, yellow, foam or rubber ball. No other ball is permitted.
-                </li>
-                <li>
-                    <strong>Teams:</strong> Teams are chosen backyard-style. Captains pick players one by one.
-                </li>
-                <li>
-                    <strong>Scoring:</strong> A touchdown is 6 points. A field goal (kicked) is 3 points. There are no extra points.
-                </li>
-                <li>
-                    <strong>Downs:</strong> Offense has four downs (attempts) to score a touchdown. There are no first-down markers; it's all or nothing.
-                </li>
-                <li>
-                    <strong>Tackling:</strong> The game is strictly two-hand touch. Tackling is forbidden and results in a 10-yard penalty.
-                </li>
-                <li>
-                    <strong>The Britalian Clause:</strong> Once per game, a team can invoke the "Britalian Clause," allowing them to attempt a trick play that would otherwise be illegal (e.g., two forward passes).
                 </li>
             </ul>
         </section>
@@ -320,7 +402,7 @@
         <!-- Creators Section -->
         <section id="creators" class="content-section">
             <h2>Meet the Founders</h2>
-            <p>Britalian Football wasn't born in a boardroom. It was forged on the field of honor (a backyard in Plainview, NY) by a group of friends with a love for competition and a healthy dose of rivalry. What started as a simple argument over whether British or Italian ingenuity was superior quickly evolved into the sport we know and love today.</p>
+            <p>Britalian Football wasn't born in a boardroom. It was forged on the fields of POB Middle School in Plainview, New York by a group of friends with a love for competition and a healthy dose of rivalry, evolving into the sport we know and love today.</p>
             <div class="card-container">
                  <div class="card">
                     <h3>Max (Owner)</h3>
@@ -328,7 +410,7 @@
                 </div>
                 <div class="card">
                     <h3>Founding Council</h3>
-                    <p>Vhiaan, Jared, Jason, Micheal, and Harrison were instrumental in shaping the rules and the competitive spirit of the league from day one.</p>
+                    <p>Vihaan, Jared, Jason, Micheal, and Harrison were instrumental in shaping the rules and the competitive spirit of the league from day one.</p>
                 </div>
             </div>
         </section>
@@ -338,6 +420,39 @@
         <p>&copy; 2025 Britalian Football League. All Rights Reserved.</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+            const header = document.querySelector('.header');
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        const headerHeight = header ? header.offsetHeight : 0;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
+
+
+
+
+
+
 
