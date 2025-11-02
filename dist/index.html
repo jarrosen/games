@@ -43,7 +43,7 @@
             z-index: 1000;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        
+
         /* STEP 2: Add your logo image here if you have one */
         .logo {
             font-size: 1.8em;
@@ -66,7 +66,7 @@
             border-radius: 5px;
             transition: color 0.3s ease;
         }
-        
+
         .nav-links a:hover {
             color: var(--accent-color);
         }
@@ -93,10 +93,10 @@
             margin-bottom: 20px;
             font-weight: 900;
         }
-        
+
         h1 { font-size: 2.5em; }
         h2 { font-size: 2em; }
-        
+
         .content-section h3 {
             color: var(--secondary-color);
             font-size: 1.6em;
@@ -124,13 +124,13 @@
             padding: 20px;
             text-align: center;
         }
-        
+
         .card h3 {
             margin-top: 0;
             color: var(--secondary-color);
             border: none;
         }
-        
+
         .card .nickname {
             font-style: italic;
             font-size: 1.1em;
@@ -143,7 +143,7 @@
             color: var(--accent-color);
             font-weight: 700;
         }
-        
+
         .card p {
             color: var(--text-color);
         }
@@ -156,23 +156,23 @@
             overflow-x: auto; /* For small screens */
             display: block;
         }
-        
+
         .leaderboard-table th, .leaderboard-table td {
             padding: 15px;
             text-align: left;
             border-bottom: 1px solid #444;
         }
-        
+
         .leaderboard-table th {
             background-color: var(--primary-color);
             color: var(--secondary-color);
             font-weight: 700;
         }
-        
+
         .leaderboard-table tr:nth-child(even) {
             background-color: #3a3a3a;
         }
-        
+
         /* Rules list */
         .rules-list {
             list-style-type: none;
@@ -199,7 +199,7 @@
             background-color: #111;
             color: #888;
         }
-        
+
     </style>
 </head>
 <body>
@@ -287,7 +287,7 @@
         <!-- Leaderboards Section -->
         <section id="leaderboards" class="content-section">
             <h2>Leaderboards</h2>
-            
+
             <h3>Touchdowns Scored</h3>
             <table class="leaderboard-table">
                 <thead>
@@ -431,7 +431,7 @@
 
                     const targetId = this.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
-                    
+
                     if (targetElement) {
                         const headerHeight = header ? header.offsetHeight : 0;
                         const elementPosition = targetElement.getBoundingClientRect().top;
@@ -449,23 +449,3 @@
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

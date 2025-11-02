@@ -23,5 +23,17 @@ const games = [
       "Arcade"
     ],
     "link": "racing_game/"
+  },
+  {
+    "title": "Streets of Cow",
+    "description": "A side-scrolling beat 'em up game where you play as a fire-breathing cow.",
+    "image": "streets_of_cow/cow.png",
+    "creator": "Jules",
+    "tags": [
+      "action",
+      "arcade",
+      "beat 'em up"
+    ],
+    "link": "streets_of_cow/"
   }
 ];
