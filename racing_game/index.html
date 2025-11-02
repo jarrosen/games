@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Off-Road Racing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Off-Road Racing</h1>
+    <div id="game-container">
+        <canvas id="game-canvas" width="800" height="600"></canvas>
+        <div id="ui-container">
+            <h2>Level: <span id="level">1</span></h2>
+            <h3>Time: <span id="timer">60</span></h3>
+            <h3>Collected: <span id="collected-count">0</span> / <span id="total-collectibles">0</span></h3>
+        </div>
+        <div id="high-scores-container" style="display: none;">
+            <h2>High Scores - Level <span id="high-scores-level">1</span></h2>
+            <ul id="high-scores-list"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
