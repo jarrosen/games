@@ -1,5 +1,18 @@
 const games = [
   {
+    "title": "Elite Card Creator",
+    "description": "Create legendary sports cards with AI. Design, customize, and collect unique player cards.",
+    "image": "https://placehold.co/600x400/0f172a/3b82f6?text=Elite+Card+Creator",
+    "creator": "Master Card Smith",
+    "tags": [
+      "Tool",
+      "AI",
+      "Creative",
+      "Sports"
+    ],
+    "link": "elite-card-creator/"
+  },
+  {
     "title": "Fighter's Conquest",
     "description": "A classic 8-bit fighting game. Battle against CPU opponents, earn coins, and unlock new fighters. Upgrade your characters to conquer the tournament and become the ultimate champion.",
     "image": "https://placehold.co/600x400/991b1b/ffffff?text=Fighter's+Conquest",
