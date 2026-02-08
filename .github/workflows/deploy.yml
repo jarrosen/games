@@ -34,8 +34,20 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Build Site
+      - name: Build Elite Card Creator
+        run: |
+          cd elite-card-creator
+          npm ci
+          npm run build
+          rm -rf node_modules
+        
+      - name: Build Site (Generate List)
         run: node scripts/generate-gamelist.js
+
+      - name: Replace Elite Card Creator with Built Artifact
+        run: |
+          rm -rf dist/elite-card-creator
+          cp -r elite-card-creator/dist dist/elite-card-creator
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v3

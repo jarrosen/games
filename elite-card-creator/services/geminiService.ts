@@ -10,8 +10,8 @@ const generateCardSchema = {
     bio: { type: Type.STRING },
     badge: { type: Type.STRING },
     rarity: { type: Type.STRING },
-    designTheme: { 
-      type: Type.STRING, 
+    designTheme: {
+      type: Type.STRING,
       enum: ['modern', 'retro', 'street', 'futuristic', 'classic', 'pixel'],
       description: "The visual style theme for the card name based on the player's persona."
     }
@@ -23,7 +23,10 @@ export const generateCardData = async (
   prompt: string,
   sport: SportType
 ): Promise<CardData> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = localStorage.getItem('gemini_api_key') || process.env.API_KEY;
+  if (!apiKey) throw new Error("No API Key found. Please set it in settings.");
+
+  const ai = new GoogleGenAI({ apiKey });
 
   const systemPrompt = `
     You are the "Master Card Smith," an expert sports analyst and creative world-builder. 
@@ -70,11 +73,14 @@ export const generateCardImage = async (
   sport: SportType,
   referenceImage?: string
 ): Promise<string> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = localStorage.getItem('gemini_api_key') || process.env.API_KEY;
+  if (!apiKey) throw new Error("No API Key found. Please set it in settings.");
+
+  const ai = new GoogleGenAI({ apiKey });
 
   // 1. Augment the prompt using a text model first to get a better visual description
   let enhancedDescription = prompt;
-  
+
   try {
     const augmentationResponse = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
@@ -103,7 +109,7 @@ export const generateCardImage = async (
         Output ONLY the enhanced description paragraph. Do not add markdown or conversational filler.
       `,
     });
-    
+
     if (augmentationResponse.text) {
       enhancedDescription = augmentationResponse.text;
     }
@@ -134,12 +140,12 @@ export const generateCardImage = async (
     Scene Description: ${enhancedDescription}
     Style: Dynamic action shot, cinematic lighting, hyper-realistic, 8k resolution, digital art style.
     Note: Ensure the player's pose accurately reflects the specific action described (e.g. a jump shot should look like a jump shot from distance, not a dunk at the rim).
-    ${referenceImage 
-      ? 'IMPORTANT: The player in the image MUST have the face of the person in the provided input image. However, do NOT use the background, clothing, or pose from the input image. Generate a completely new body, uniform, and action pose suitable for the sport. Only the facial features should be transferred.' 
+    ${referenceImage
+      ? 'IMPORTANT: The player in the image MUST have the face of the person in the provided input image. However, do NOT use the background, clothing, or pose from the input image. Generate a completely new body, uniform, and action pose suitable for the sport. Only the facial features should be transferred.'
       : 'Create a unique character face matching the description.'}
     Background: Stadium atmosphere or abstract energetic sports background.
   `;
-  
+
   parts.push({ text: imagePrompt });
 
   const response = await ai.models.generateContent({
@@ -149,7 +155,7 @@ export const generateCardImage = async (
       imageConfig: {
         aspectRatio: "1:1",
       }
-    }
+    } as any
   });
 
   // Extract the generated image from the response parts
