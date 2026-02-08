@@ -3,10 +3,10 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - feat/racing-game
   pull_request:
     branches:
-      - main
+      - feat/racing-game
   pull_request_target:
     types:
       - closed
