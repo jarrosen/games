@@ -19,6 +19,6 @@ export default defineConfig(({ mode }) => {
         '@': path.resolve(__dirname, '.'),
       }
     },
-    base: '/games/elite-card-creator/',
+    base: '/elite-card-creator/',
   };
 });
