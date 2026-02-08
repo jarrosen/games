@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { ViewMode } from '../types';
-import { Menu, Hammer, LayoutGrid, ShoppingBag } from 'lucide-react';
+import { Menu, Hammer, LayoutGrid, ShoppingBag, Settings } from 'lucide-react';
+
 
 interface NavigationProps {
   currentView: ViewMode;
   onViewChange: (view: ViewMode) => void;
+  onOpenSettings: () => void;
 }
 
-const Navigation: React.FC<NavigationProps> = ({ currentView, onViewChange }) => {
+const Navigation: React.FC<NavigationProps> = ({ currentView, onViewChange, onOpenSettings }) => {
+
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -84,6 +87,20 @@ const Navigation: React.FC<NavigationProps> = ({ currentView, onViewChange }) =>
               <div className="flex flex-col">
                 <span className="font-bold">Card Shop</span>
                 <span className="text-[10px] opacity-70">Buy packs</span>
+              </div>
+            </button>
+            <div className="h-px bg-slate-800 w-full" />
+            <button
+              onClick={() => {
+                onOpenSettings();
+                setIsOpen(false);
+              }}
+              className="w-full text-left px-4 py-3 flex items-center gap-3 hover:bg-slate-800 transition-colors text-slate-300"
+            >
+              <Settings size={18} />
+              <div className="flex flex-col">
+                <span className="font-bold">Settings</span>
+                <span className="text-[10px] opacity-70">Configure API Key</span>
               </div>
             </button>
           </div>

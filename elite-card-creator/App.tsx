@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import CardForm from './components/CardForm';
+import SettingsModal from './components/SettingsModal';
 import CardPreview from './components/CardPreview';
 import Toast from './components/Toast';
 import Navigation from './components/Navigation';
@@ -22,6 +23,7 @@ const App: React.FC = () => {
   const [view, setView] = useState<ViewMode>('FORGE');
   const [collection, setCollection] = useState<CollectedCard[]>([]);
   const [balance, setBalance] = useState<number>(1000);
+  const [showSettings, setShowSettings] = useState(false);
 
   // --- Forge State ---
   const [selectedSport, setSelectedSport] = useState<SportType>('basketball');
@@ -86,11 +88,11 @@ const App: React.FC = () => {
 
   const saveToBinder = useCallback(() => {
     const newCard: CollectedCard = {
-        ...cardData,
-        id: generateId(),
-        image: displayImage,
-        sport: selectedSport,
-        timestamp: Date.now()
+      ...cardData,
+      id: generateId(),
+      image: displayImage,
+      sport: selectedSport,
+      timestamp: Date.now()
     };
     setCollection(prev => [newCard, ...prev]);
     setToast({ show: true, message: "Added to Binder!", type: "success" });
@@ -115,9 +117,15 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0f172a] text-slate-100">
-      <Navigation 
-        currentView={view} 
-        onViewChange={setView} 
+      <Navigation
+        currentView={view}
+        onViewChange={setView}
+        onOpenSettings={() => setShowSettings(true)}
+      />
+
+      <SettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
       />
 
       {view === 'FORGE' && (
@@ -152,24 +160,24 @@ const App: React.FC = () => {
       )}
 
       {view === 'COLLECTOR_HOME' && (
-        <CollectorHome 
-            onNavigate={setView} 
-            cardCount={collection.length}
+        <CollectorHome
+          onNavigate={setView}
+          cardCount={collection.length}
         />
       )}
 
       {view === 'BINDER' && (
-        <Binder 
-            cards={collection} 
-            onBack={() => setView('COLLECTOR_HOME')} 
+        <Binder
+          cards={collection}
+          onBack={() => setView('COLLECTOR_HOME')}
         />
       )}
 
       {view === 'SHOP' && (
-        <Shop 
-            balance={balance}
-            onBuy={handleBuyPack}
-            onBack={() => setView('COLLECTOR_HOME')} 
+        <Shop
+          balance={balance}
+          onBuy={handleBuyPack}
+          onBack={() => setView('COLLECTOR_HOME')}
         />
       )}
 
